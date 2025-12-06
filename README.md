@@ -315,58 +315,95 @@ banana-slides/
 │   │   ├── pages/              # 页面组件
 │   │   │   ├── Home.tsx        # 首页（创建项目）
 │   │   │   ├── OutlineEditor.tsx    # 大纲编辑页
-│   │   │   ├── DescriptionEditor.tsx # 描述编辑页
-│   │   │   └── Preview.tsx     # 预览和导出页
+│   │   │   ├── DetailEditor.tsx     # 详细描述编辑页
+│   │   │   ├── SlidePreview.tsx     # 幻灯片预览页
+│   │   │   └── History.tsx          # 历史版本管理页
 │   │   ├── components/         # UI组件
 │   │   │   ├── outline/        # 大纲相关组件
-│   │   │   ├── description/    # 描述相关组件
-│   │   │   └── common/         # 通用组件
+│   │   │   │   └── OutlineCard.tsx
+│   │   │   ├── preview/        # 预览相关组件
+│   │   │   │   ├── SlideCard.tsx
+│   │   │   │   └── DescriptionCard.tsx
+│   │   │   ├── shared/         # 共享组件
+│   │   │   │   ├── Button.tsx
+│   │   │   │   ├── Card.tsx
+│   │   │   │   ├── Input.tsx
+│   │   │   │   ├── Textarea.tsx
+│   │   │   │   ├── Modal.tsx
+│   │   │   │   ├── Loading.tsx
+│   │   │   │   ├── Toast.tsx
+│   │   │   │   ├── Markdown.tsx
+│   │   │   │   ├── MaterialSelector.tsx
+│   │   │   │   ├── MaterialGeneratorModal.tsx
+│   │   │   │   ├── TemplateSelector.tsx
+│   │   │   │   ├── ReferenceFileSelector.tsx
+│   │   │   │   └── ...
+│   │   │   ├── layout/         # 布局组件
+│   │   │   └── history/        # 历史版本组件
 │   │   ├── store/              # Zustand状态管理
 │   │   │   └── useProjectStore.ts
 │   │   ├── api/                # API接口
 │   │   │   ├── client.ts       # Axios客户端配置
-│   │   │   └── endpoints.ts    # API端点
+│   │   │   └── endpoints.ts    # API端点定义
 │   │   ├── types/              # TypeScript类型定义
-│   │   └── utils/              # 工具函数
+│   │   ├── utils/              # 工具函数
+│   │   ├── constants/          # 常量定义
+│   │   └── styles/             # 样式文件
 │   ├── public/                 # 静态资源
 │   ├── package.json
-│   └── vite.config.ts
+│   ├── vite.config.ts
+│   ├── tailwind.config.js      # Tailwind CSS配置
+│   ├── Dockerfile
+│   └── nginx.conf              # Nginx配置
 │
 ├── backend/                    # Flask后端应用
 │   ├── app.py                  # Flask应用入口
 │   ├── config.py               # 配置文件
-│   ├── requirements.txt        # Python依赖
 │   ├── models/                 # 数据库模型
 │   │   ├── project.py          # Project模型
-│   │   ├── page.py             # Page模型
-│   │   └── task.py             # Task模型
+│   │   ├── page.py             # Page模型（幻灯片页）
+│   │   ├── task.py             # Task模型（异步任务）
+│   │   ├── material.py         # Material模型（参考素材）
+│   │   ├── user_template.py    # UserTemplate模型（用户模板）
+│   │   ├── reference_file.py   # ReferenceFile模型（参考文件）
+│   │   └── page_image_version.py # PageImageVersion模型（页面版本）
 │   ├── services/               # 服务层
-│   │   ├── ai_service.py       # AI服务（基于demo.py）
-│   │   ├── file_service.py     # 文件管理
-│   │   ├── export_service.py   # PPTX/PDF导出
-│   │   └── task_manager.py     # 异步任务管理
+│   │   ├── ai_service.py       # AI生成服务（Gemini集成）
+│   │   ├── file_service.py     # 文件管理服务
+│   │   ├── file_parser_service.py # 文件解析服务
+│   │   ├── export_service.py   # PPTX/PDF导出服务
+│   │   ├── task_manager.py     # 异步任务管理
+│   │   └── prompts.py          # AI提示词模板
 │   ├── controllers/            # API控制器
-│   │   ├── project_controller.py
-│   │   ├── page_controller.py
-│   │   ├── template_controller.py
-│   │   ├── export_controller.py
-│   │   └── file_controller.py
+│   │   ├── project_controller.py      # 项目管理
+│   │   ├── page_controller.py         # 页面管理
+│   │   ├── material_controller.py     # 素材管理
+│   │   ├── template_controller.py     # 模板管理
+│   │   ├── reference_file_controller.py # 参考文件管理
+│   │   ├── export_controller.py       # 导出功能
+│   │   └── file_controller.py         # 文件上传
 │   ├── utils/                  # 工具函数
 │   │   ├── response.py         # 统一响应格式
-│   │   └── validators.py       # 数据验证
-│   └── instance/               # SQLite数据库（自动生成）
+│   │   ├── validators.py       # 数据验证
+│   │   └── path_utils.py       # 路径处理
+│   ├── scripts/                # 脚本工具
+│   │   └── export_latest_reference_file.py
+│   ├── instance/               # SQLite数据库（自动生成）
+│   ├── uploads/                # 后端文件上传目录
+│   ├── exports/                # 导出文件目录
+│   ├── Dockerfile
+│   └── README.md
 │
-├── uploads/                    # 文件上传目录
-│   └── {project_id}/
-│       ├── template/           # 模板图片
-│       └── pages/              # 生成的PPT页面图片
+├── tests/                      # 测试文件目录
+├── v0_demo/                    # 早期演示版本
+├── uploads/                    # 根级文件上传目录
+├── output/                     # 输出文件目录
 │
-├── demo.py                     # 原始demo（已集成到后端）
-├── gemini_genai.py             # Gemini API封装（已集成）
-├── pyproject.toml              # Python项目配置（使用 uv 管理依赖）
+├── generate-example.py         # 示例生成脚本
+├── pyproject.toml              # Python项目配置（uv管理）
 ├── uv.lock                     # uv依赖锁定文件
-├── docker compose.yml          # Docker Compose 配置
-├── .dockerignore               # Docker 忽略文件
+├── docker-compose.yml          # Docker Compose配置
+├── env.example                 # 环境变量示例
 ├── LICENSE                     # MIT许可证
 └── README.md                   # 本文件
 ```
