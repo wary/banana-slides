@@ -11,6 +11,8 @@ export { ConfirmDialog, useConfirm } from './ConfirmDialog';
 export { MaterialGeneratorModal } from './MaterialGeneratorModal';
 export { ReferenceFileCard } from './ReferenceFileCard';
 export { ReferenceFileSelector } from './ReferenceFileSelector';
+export { FilePreviewModal } from './FilePreviewModal';
+export { ReferenceFileList } from './ReferenceFileList';
 export { MaterialSelector } from './MaterialSelector';
 export { GithubLink } from './GithubLink';
 export { Markdown } from './Markdown';

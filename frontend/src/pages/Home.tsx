@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { Sparkles, FileText, FileEdit, ImagePlus, Paperclip, Palette, Lightbulb } from 'lucide-react';
-import { Button, Textarea, Card, useToast, MaterialGeneratorModal, ReferenceFileCard, ReferenceFileSelector } from '@/components/shared';
+import { Button, Textarea, Card, useToast, MaterialGeneratorModal, ReferenceFileList, ReferenceFileSelector, FilePreviewModal } from '@/components/shared';
 import { TemplateSelector, getTemplateFile } from '@/components/shared/TemplateSelector';
 import { listUserTemplates, type UserTemplate, uploadReferenceFile, type ReferenceFile, associateFileToProject } from '@/api/endpoints';
 import { useProjectStore } from '@/store/useProjectStore';
@@ -24,6 +24,7 @@ export const Home: React.FC = () => {
   const [referenceFiles, setReferenceFiles] = useState<ReferenceFile[]>([]);
   const [isUploadingFile, setIsUploadingFile] = useState(false);
   const [isFileSelectorOpen, setIsFileSelectorOpen] = useState(false);
+  const [previewFileId, setPreviewFileId] = useState<string | null>(null);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // 检查是否有当前项目 & 加载用户模板
@@ -85,7 +86,7 @@ export const Home: React.FC = () => {
             await handleFileUpload(file);
           } else {
             console.log('File type not allowed');
-            show({ message: `不支持的文件类型: ${fileExt}`, type: 'warning' });
+            show({ message: `不支持的文件类型: ${fileExt}`, type: 'info' });
           }
         }
       }
@@ -101,9 +102,11 @@ export const Home: React.FC = () => {
     try {
       // 在 Home 页面，始终上传为全局文件
       const response = await uploadReferenceFile(file, null);
-      if (response.data?.file) {
-        setReferenceFiles(prev => [...prev, response.data.file]);
+      if (response?.data?.file) {
+        setReferenceFiles(prev => [...prev, response.data!.file]);
         show({ message: '文件上传成功', type: 'success' });
+      } else {
+        show({ message: '文件上传失败：未返回文件信息', type: 'error' });
       }
     } catch (error: any) {
       console.error('文件上传失败:', error);
@@ -229,7 +232,7 @@ export const Home: React.FC = () => {
     if (parsingFiles.length > 0) {
       show({ 
         message: `还有 ${parsingFiles.length} 个参考文件正在解析中，请等待解析完成`, 
-        type: 'warning' 
+        type: 'info' 
       });
       return;
     }
@@ -463,21 +466,14 @@ export const Home: React.FC = () => {
             className="hidden"
           />
 
-          {referenceFiles.length > 0 && (
-            <div className="mb-4">
-              <div className="space-y-2">
-                {referenceFiles.map(file => (
-                  <ReferenceFileCard
-                    key={file.id}
-                    file={file}
-                    onDelete={handleFileRemove}
-                    onStatusChange={handleFileStatusChange}
-                    deleteMode="remove"
-                  />
-                ))}
-              </div>
-            </div>
-          )}
+          <ReferenceFileList
+            files={referenceFiles}
+            onFileClick={setPreviewFileId}
+            onFileDelete={handleFileRemove}
+            onFileStatusChange={handleFileStatusChange}
+            deleteMode="remove"
+            className="mb-4"
+          />
 
           {/* 模板选择 */}
           <div className="mb-6 md:mb-8 pt-4 border-t border-gray-100">
@@ -517,6 +513,8 @@ export const Home: React.FC = () => {
         multiple={true}
         initialSelectedIds={selectedFileIds}
       />
+      
+      <FilePreviewModal fileId={previewFileId} onClose={() => setPreviewFileId(null)} />
     </div>
   );
 };

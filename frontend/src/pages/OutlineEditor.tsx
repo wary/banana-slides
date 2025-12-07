@@ -18,7 +18,7 @@ import {
   useSortable,
 } from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
-import { Button, Loading, useConfirm, useToast, AiRefineInput } from '@/components/shared';
+import { Button, Loading, useConfirm, useToast, AiRefineInput, ReferenceFileList, FilePreviewModal } from '@/components/shared';
 import { OutlineCard } from '@/components/outline/OutlineCard';
 import { useProjectStore } from '@/store/useProjectStore';
 import { refineOutline } from '@/api/endpoints';
@@ -69,6 +69,7 @@ export const OutlineEditor: React.FC = () => {
 
   const [selectedPageId, setSelectedPageId] = useState<string | null>(null);
   const [isAiRefining, setIsAiRefining] = useState(false);
+  const [previewFileId, setPreviewFileId] = useState<string | null>(null);
   const { confirm, ConfirmDialog } = useConfirm();
   const { show, ToastContainer } = useToast();
 
@@ -79,6 +80,7 @@ export const OutlineEditor: React.FC = () => {
       syncProject(projectId);
     }
   }, [projectId, currentProject, syncProject]);
+
 
   // 拖拽传感器配置
   const sensors = useSensors(
@@ -294,6 +296,13 @@ export const OutlineEditor: React.FC = () => {
               )}
             </div>
 
+            {/* 已上传的文件列表 */}
+            <ReferenceFileList
+              projectId={projectId || null}
+              onFileClick={setPreviewFileId}
+              deleteMode="remove"
+            />
+
             {/* 大纲卡片列表 */}
             {currentProject.pages.length === 0 ? (
               <div className="text-center py-20">
@@ -397,6 +406,8 @@ export const OutlineEditor: React.FC = () => {
       </div>
       {ConfirmDialog}
       <ToastContainer />
+      
+      <FilePreviewModal fileId={previewFileId} onClose={() => setPreviewFileId(null)} />
     </div>
   );
 };
