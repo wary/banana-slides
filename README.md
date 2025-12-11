@@ -34,6 +34,16 @@
 
 </div>
 
+🚀 致谢
+---
+<div align="center">
+<br>
+<a href="https://aihubmix.com/?aff=17EC">
+  <img src="./assets/logo_aihubmix.png" alt="AIHubMix" style="height:48px;">
+</a>
+<p>感谢AIHubMix对本项目的赞助</p>
+</div>
+
 
 ## ✨ 项目缘起
 你是否也曾陷入这样的困境：明天就要汇报，但PPT还是一片空白；脑中有无数精彩的想法，却被繁琐的排版和设计消磨掉所有热情？
@@ -152,6 +162,8 @@ cd banana-slides
 
 1. **配置环境变量**
 
+> **接口格式对标AIHubMix平台，推荐使用 [AIHubMix](https://aihubmix.com/?aff=17EC) 获取API密钥，减小迁移成本**  
+
 创建 `.env` 文件（参考 `.env.example`）：
 ```bash
 cp .env.example .env
@@ -245,6 +257,8 @@ uv sync
 这将根据 `pyproject.toml` 自动安装所有依赖。
 
 3. **配置环境变量**
+
+> **接口格式对标AIHubMix平台，推荐使用 [AIHubMix](https://aihubmix.com/?aff=17EC) 获取API密钥，减少迁移成本**  
 
 复制环境变量模板：
 ```bash
