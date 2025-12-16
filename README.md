@@ -440,7 +440,7 @@ banana-slides/
 
 欢迎提出新功能建议或反馈，本人也会~~佛系~~回答大家问题
 
-<img width="300" alt="image" src="https://github.com/user-attachments/assets/5105b796-ae0e-4739-9836-2e3c41910724" />
+<img width="300" alt="image" src="https://github.com/user-attachments/assets/9060bc6b-4e6a-4f0f-90b1-c4ca8d5e6a95" />
 
 
 ## 🤝 贡献指南
